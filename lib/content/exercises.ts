@@ -327,5 +327,273 @@ export const EXERCISES: Exercise[] = [
       correctId: 'c',
       explanation: 'En SSA, chaque variable a une assignation unique. Si la valeur change, on crée une nouvelle "version" de la variable (ex: x1, x2).'
     } as QuizData
+  },
+  // --- MODULE 6 : Débogage ---
+  {
+    id: 'ex-mod6-1-1',
+    type: 'quiz',
+    question: 'Quelle commande GDB permet de faire avancer l\'exécution d\'exactement UNE instruction assembleur ?',
+    difficulty: 'easy',
+    xpReward: 20,
+    data: {
+      choices: [
+        { id: 'a', text: 'next' },
+        { id: 'b', text: 'step' },
+        { id: 'c', text: 'stepi' },
+        { id: 'd', text: 'continue' }
+      ],
+      correctId: 'c',
+      explanation: 'stepi (ou si) avance d\'une instruction machine. step et next avancent d\'une ligne de code source C/C++.'
+    } as QuizData
+  },
+  // --- MODULE 7 : Optimisation Bas Niveau ---
+  {
+    id: 'ex-mod7-1-1',
+    type: 'quiz',
+    question: 'Pourquoi l\'instruction cmov (Conditional Move) est-elle utile pour l\'optimisation ?',
+    difficulty: 'medium',
+    xpReward: 30,
+    data: {
+      choices: [
+        { id: 'a', text: 'Elle s\'exécute plus vite qu\'un mov normal.' },
+        { id: 'b', text: 'Elle permet d\'éviter un saut conditionnel, évitant ainsi le "Branch Misprediction".' },
+        { id: 'c', text: 'Elle consomme moins de mémoire.' },
+        { id: 'd', text: 'Elle permet de copier deux registres en même temps.' }
+      ],
+      correctId: 'b',
+      explanation: 'En évitant de sauter (jump), on ne brise pas le pipeline d\'instructions du processeur si la prédiction de branchement se trompe.'
+    } as QuizData
+  },
+  // --- MODULE 8 : Parseur ---
+  {
+    id: 'ex-mod8-1-1',
+    type: 'drag-drop',
+    question: 'Replacez dans l\'ordre les 3 phases principales d\'un compilateur moderne.',
+    difficulty: 'easy',
+    xpReward: 20,
+    data: {
+      items: [
+        { id: 'i1', text: 'Frontend (Lexer, Parser, AST)' },
+        { id: 'i2', text: 'Middle-end (Optimisations sur l\'IR)' },
+        { id: 'i3', text: 'Backend (Génération Assembleur)' }
+      ],
+      correctOrder: ['i1', 'i2', 'i3'],
+      explanation: 'On lit d\'abord le texte, puis on l\'optimise sous forme mathématique (IR), et enfin on écrit l\'assembleur cible.'
+    } as DragDropData
+  },
+  {
+    id: 'ex-mod8-2-1',
+    type: 'quiz',
+    question: 'Dans un AST (Arbre Syntaxique Abstrait) pour "a = 5 * 2 + 3", quel opérateur sera le nœud le plus bas dans l\'arbre ?',
+    difficulty: 'hard',
+    xpReward: 40,
+    data: {
+      choices: [
+        { id: 'a', text: '+' },
+        { id: 'b', text: '*' },
+        { id: 'c', text: '=' }
+      ],
+      correctId: 'b',
+      explanation: 'Pour respecter la priorité des opérations, la multiplication (5 * 2) doit être calculée en premier. Elle est donc "plus profonde" dans l\'arbre.'
+    } as QuizData
+  },
+  // --- MODULE 9 : IR ---
+  {
+    id: 'ex-mod9-1-1',
+    type: 'quiz',
+    question: 'Que signifie "SSA" en compilation ?',
+    difficulty: 'medium',
+    xpReward: 30,
+    data: {
+      choices: [
+        { id: 'a', text: 'Static Single Assignment' },
+        { id: 'b', text: 'System Standard Architecture' },
+        { id: 'c', text: 'Single System Assembler' }
+      ],
+      correctId: 'a',
+      explanation: 'Static Single Assignment signifie que chaque variable "virtuelle" dans le compilateur n\'est affectée qu\'une seule fois.'
+    } as QuizData
+  },
+  // --- MODULE 10 : Optimisation Middle-end ---
+  {
+    id: 'ex-mod10-1-1',
+    type: 'code-correction',
+    question: 'Identifiez l\'optimisation "Constant Folding" (pliage de constantes). Quel est le résultat final calculé par le compilateur au lieu du programme ?',
+    difficulty: 'medium',
+    xpReward: 30,
+    data: {
+      buggyCode: 'let x = 10 * 2;\nreturn x + 5;',
+      correctCode: 'return 25;',
+      hints: ['Le compilateur va faire tous les maths possibles à votre place.'],
+      explanation: 'Le compilateur transforme 10*2 en 20, puis voit x+5 et le transforme en 25. Il génèrera juste "mov rax, 25".'
+    }
+  },
+  // --- MODULE 11 : Backend ---
+  {
+    id: 'ex-mod11-1-1',
+    type: 'quiz',
+    question: 'Que se passe-t-il lors de "l\'Allocation de Registres" si nous avons plus de variables vivantes que de registres physiques ?',
+    difficulty: 'medium',
+    xpReward: 30,
+    data: {
+      choices: [
+        { id: 'a', text: 'Le compilateur plante.' },
+        { id: 'b', text: 'Le processeur augmente sa fréquence.' },
+        { id: 'c', text: 'Il effectue un "Spilling" (déversement) de certaines variables sur la pile (RAM).' }
+      ],
+      correctId: 'c',
+      explanation: 'C\'est l\'une des raisons pour lesquelles un code avec énormément de variables locales peut devenir lent.'
+    } as QuizData
+  },
+  // --- MODULE 12 : Hardware ---
+  {
+    id: 'ex-mod12-1-1',
+    type: 'quiz',
+    question: 'Quel mot-clé C/C++ est OBLIGATOIRE lorsque l\'on manipule des registres de périphériques mappés en mémoire (MMIO) ?',
+    difficulty: 'hard',
+    xpReward: 40,
+    data: {
+      choices: [
+        { id: 'a', text: 'inline' },
+        { id: 'b', text: 'const' },
+        { id: 'c', text: 'volatile' },
+        { id: 'd', text: 'register' }
+      ],
+      correctId: 'c',
+      explanation: 'volatile indique au compilateur que la valeur à cette adresse mémoire peut changer hors de son contrôle (par le hardware) et qu\'il ne doit SURTOUT PAS optimiser les lectures/écritures.'
+    } as QuizData
+  },
+  {
+    id: 'ex-mod12-2-1',
+    type: 'quiz',
+    question: 'Quelle pratique est formellement INTERDITE dans un gestionnaire d\'interruption (ISR) ?',
+    difficulty: 'medium',
+    xpReward: 20,
+    data: {
+      choices: [
+        { id: 'a', text: 'Allumer une LED' },
+        { id: 'b', text: 'Modifier une variable globale volatile' },
+        { id: 'c', text: 'Mettre une fonction de délai (ex: delay(1000))' }
+      ],
+      correctId: 'c',
+      explanation: 'Un ISR doit être le plus court possible. Si vous bloquez l\'exécution, le processeur entier se fige et rate toutes les autres interruptions.'
+    } as QuizData
+  },
+  // --- MODULE 13 : SIMD ---
+  {
+    id: 'ex-mod13-1-1',
+    type: 'quiz',
+    question: 'Quelle est la principale source de plantages (crash) lors de l\'utilisation manuelle d\'instructions SIMD (AVX/SSE) ?',
+    difficulty: 'hard',
+    xpReward: 40,
+    data: {
+      choices: [
+        { id: 'a', text: 'Une division par zéro.' },
+        { id: 'b', text: 'Un mauvais alignement de la mémoire (ex: adresse non multiple de 16 ou 32 octets).' },
+        { id: 'c', text: 'L\'utilisation de nombres négatifs.' }
+      ],
+      correctId: 'b',
+      explanation: 'La plupart des instructions de chargement SIMD exigeaient un strict alignement mémoire pour maximiser la vitesse du bus. Si l\'adresse n\'est pas alignée, le CPU déclenche une exception de protection générale.'
+    } as QuizData
+  },
+  // --- MODULE 14 : ABI ---
+  {
+    id: 'ex-mod14-1-1',
+    type: 'quiz',
+    question: 'Sous l\'ABI Windows x64, que doit absolument faire la fonction appelante (caller) juste avant un call ?',
+    difficulty: 'medium',
+    xpReward: 30,
+    data: {
+      choices: [
+        { id: 'a', text: 'Mettre RAX à 0' },
+        { id: 'b', text: 'Allouer 32 octets sur la pile (Shadow Space)' },
+        { id: 'c', text: 'Sauvegarder RBP' }
+      ],
+      correctId: 'b',
+      explanation: 'Windows impose qu\'on réserve toujours 32 octets (sub rsp, 32) pour les 4 premiers paramètres, même si la fonction ne prend aucun paramètre !'
+    } as QuizData
+  },
+  // --- MODULE 15 : Floats & Structs ---
+  {
+    id: 'ex-mod15-1-1',
+    type: 'quiz',
+    question: 'Sur les processeurs modernes, quels registres utilise-t-on pour les calculs en virgule flottante (Float) ?',
+    difficulty: 'medium',
+    xpReward: 20,
+    data: {
+      choices: [
+        { id: 'a', text: 'RAX, RBX, RCX' },
+        { id: 'b', text: 'ST0, ST1, ST2 (x87)' },
+        { id: 'c', text: 'XMM0, XMM1, XMM2 (SSE)' }
+      ],
+      correctId: 'c',
+      explanation: 'Aujourd\'hui, l\'ancien coprocesseur x87 est obsolète. Les compilateurs utilisent le jeu d\'instructions SSE avec les registres XMM (128 bits) pour le scalaire comme pour le vectoriel.'
+    } as QuizData
+  },
+  {
+    id: 'ex-mod15-2-1',
+    type: 'quiz',
+    question: 'Pourquoi le compilateur ajoute-t-il du "Padding" (octets vides) dans une structure C ?',
+    difficulty: 'hard',
+    xpReward: 40,
+    data: {
+      choices: [
+        { id: 'a', text: 'Pour aligner les variables en mémoire et accélérer les accès CPU.' },
+        { id: 'b', text: 'Pour détecter les Buffer Overflows.' },
+        { id: 'c', text: 'Pour réserver de la place aux futures versions.' }
+      ],
+      correctId: 'a',
+      explanation: 'Les accès mémoire désalignés coûtent très cher en cycles CPU, et causent même des plantages matériels sur les architectures ARM.'
+    } as QuizData
+  },
+  // --- MODULE 16 : Securité ---
+  {
+    id: 'ex-mod16-1-1',
+    type: 'quiz',
+    question: 'Dans un Buffer Overflow basique, quelle valeur spécifique l\'attaquant cherche-t-il à écraser ?',
+    difficulty: 'medium',
+    xpReward: 30,
+    data: {
+      choices: [
+        { id: 'a', text: 'L\'adresse de retour (Return Address)' },
+        { id: 'b', text: 'Le pointeur de pile (RSP)' },
+        { id: 'c', text: 'La variable "isAdmin"' }
+      ],
+      correctId: 'a',
+      explanation: 'En écrasant l\'adresse de retour (sauvegardée juste en dessous du frame pointer), l\'instruction "ret" finira par exécuter le code de l\'attaquant.'
+    } as QuizData
+  },
+  {
+    id: 'ex-mod16-2-1',
+    type: 'quiz',
+    question: 'Le NX Bit (DEP) empêche d\'exécuter du code sur la pile. Comment l\'attaque ROP contourne-t-elle cela ?',
+    difficulty: 'hard',
+    xpReward: 50,
+    data: {
+      choices: [
+        { id: 'a', text: 'Elle désactive l\'antivirus.' },
+        { id: 'b', text: 'Elle enchaîne des "gadgets" (petits bouts de code valides existants) se terminant par RET.' },
+        { id: 'c', text: 'Elle écrit le code directement sur le disque dur.' }
+      ],
+      correctId: 'b',
+      explanation: 'Return-Oriented Programming (ROP) ne crée pas de nouveau code ; il réutilise le code légitime du programme ou de la libc dans un ordre malicieux.'
+    } as QuizData
+  },
+  // --- MODULE 17 : Bootloader ---
+  {
+    id: 'ex-mod17-1-1',
+    type: 'quiz',
+    question: 'Quelle est la taille maximale d\'un bootloader BIOS (stage 1) logé dans le MBR ?',
+    difficulty: 'easy',
+    xpReward: 20,
+    data: {
+      choices: [
+        { id: 'a', text: '1 Mégaoctet' },
+        { id: 'b', text: '4 Kilooctets' },
+        { id: 'c', text: '512 Octets' }
+      ],
+      correctId: 'c',
+      explanation: 'Le Master Boot Record (MBR) ne fait que 512 octets (un seul secteur de disque). C\'est pour cela qu\'il est souvent écrit en assembleur pur.'
+    } as QuizData
   }
 ];

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/layout/AppShell";
+import SearchModal from "@/components/layout/SearchModal";
+import BadgeToast from "@/components/gamification/BadgeToast";
+import LevelUpModal from "@/components/gamification/LevelUpModal";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -31,6 +34,9 @@ export default function RootLayout({
     >
       <body className="min-h-full flex bg-primary text-primary overflow-hidden">
         <AppShell>{children}</AppShell>
+        <BadgeToast />
+        <LevelUpModal />
+        <SearchModal />
       </body>
     </html>
   );

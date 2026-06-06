@@ -5,7 +5,7 @@ import { getXPProgress, getLevelFromXP } from '@/lib/utils';
 import { Menu, Search, Flame } from 'lucide-react';
 
 export default function TopBar() {
-  const { toggleSidebar, progress } = useAppStore();
+  const { toggleSidebar, progress, setSearchOpen } = useAppStore();
   const { current, max, percentage } = getXPProgress(progress.xp);
   const currentLevel = getLevelFromXP(progress.xp);
 
@@ -20,7 +20,10 @@ export default function TopBar() {
         </button>
 
         {/* Search Bar Placeholder */}
-        <button className="hidden md:flex items-center gap-2 bg-surface hover:bg-elevated border border-default rounded-md px-3 py-1.5 text-sm text-text-muted transition-colors w-64">
+        <button 
+          onClick={() => setSearchOpen(true)}
+          className="hidden md:flex items-center gap-2 bg-surface hover:bg-elevated border border-default rounded-md px-3 py-1.5 text-sm text-text-muted transition-colors w-64"
+        >
           <Search size={16} />
           <span>Rechercher... (Cmd+K)</span>
         </button>

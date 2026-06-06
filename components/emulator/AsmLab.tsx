@@ -5,6 +5,7 @@ import { CpuState } from '@/lib/emulator/types';
 import { loadProgram, step, runAll } from '@/lib/emulator/cpu';
 import RegisterView from './RegisterView';
 import StackView from './StackView';
+import MemoryView from './MemoryView';
 import { Play, SkipForward, RotateCcw, AlertTriangle } from 'lucide-react';
 
 interface AsmLabProps {
@@ -125,8 +126,9 @@ export default function AsmLab({ initialCode = 'mov rax, 42\npush rax\nadd rax, 
               flags={state.flags} 
               previousRegisters={prevState?.registers || null} 
             />
-            <div className="flex-1 min-h-[250px]">
+            <div className="flex-1 min-h-[250px] flex flex-col gap-6">
               <StackView stack={state.stack} />
+              <MemoryView memory={state.memory} />
             </div>
           </>
         )}

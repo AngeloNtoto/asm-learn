@@ -13,8 +13,38 @@ import {
   Hammer,
   Layers,
   Library,
-  Terminal
+  Terminal,
+  Bug,
+  Zap,
+  Share2,
+  Activity,
+  Cpu,
+  Microchip,
+  Network,
+  Box,
+  ShieldAlert,
+  TerminalSquare
 } from 'lucide-react';
+
+const ICON_MAP: Record<string, React.ComponentType<any>> = {
+  'cpu': BookOpen,
+  'database': Settings2,
+  'code': Terminal,
+  'git-branch': Settings2,
+  'hammer': Hammer,
+  'Bug': Bug,
+  'Zap': Zap,
+  'Terminal': Terminal,
+  'Share2': Share2,
+  'Activity': Activity,
+  'Cpu': Cpu,
+  'Layers': Layers,
+  'Network': Network,
+  'Box': Box,
+  'ShieldAlert': ShieldAlert,
+  'TerminalSquare': TerminalSquare,
+  'Microchip': Microchip,
+};
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -115,11 +145,10 @@ export default function Sidebar() {
                 >
                   <div className={`w-1.5 h-full absolute left-0 top-0 rounded-r-full transition-all duration-300 ${active ? 'bg-accent-cyan opacity-100' : 'opacity-0'}`} />
 
-                  {mod.icon === 'cpu' && <BookOpen size={20} className={`flex-shrink-0 ${active ? 'text-accent-cyan' : ''}`} />}
-                  {mod.icon === 'database' && <Settings2 size={20} className={`flex-shrink-0 ${active ? 'text-accent-purple' : ''}`} />}
-                  {mod.icon === 'code' && <Terminal size={20} className={`flex-shrink-0 ${active ? 'text-accent-green' : ''}`} />}
-                  {mod.icon === 'git-branch' && <Settings2 size={20} className={`flex-shrink-0 ${active ? 'text-accent-amber' : ''}`} />}
-                  {mod.icon === 'hammer' && <Hammer size={20} className={`flex-shrink-0 ${active ? 'text-accent-red' : ''}`} />}
+                  {(() => {
+                    const IconComponent = ICON_MAP[mod.icon] || BookOpen;
+                    return <IconComponent size={20} className="flex-shrink-0" style={{ color: active ? `var(--${mod.color})` : undefined }} />;
+                  })()}
 
                   <div className={`flex flex-col flex-1 min-w-0 ${!sidebarOpen && 'md:hidden'}`}>
                     <span className="truncate">{mod.title}</span>

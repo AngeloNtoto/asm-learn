@@ -135,5 +135,47 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
     term: 'Syscall (System Call)',
     definition: 'Le mécanisme par lequel un programme demande un service au système d\'exploitation (ex: lire un fichier, afficher du texte).',
     category: 'Système'
+  },
+  {
+    id: 'simd',
+    term: 'SIMD',
+    definition: 'Single Instruction, Multiple Data. Une architecture permettant d\'exécuter une seule instruction sur plusieurs données en même temps, très utile pour l\'optimisation de calculs (ex: AVX, SSE).',
+    category: 'Architecture'
+  },
+  {
+    id: 'abi',
+    term: 'ABI (Application Binary Interface)',
+    definition: 'La convention qui dicte comment les fonctions doivent se passer des données, quels registres utiliser pour les arguments, et comment gérer la pile.',
+    category: 'Système'
+  },
+  {
+    id: 'rop',
+    term: 'ROP (Return-Oriented Programming)',
+    definition: 'Technique de piratage sophistiquée qui consiste à enchaîner des bouts de code légitime (gadgets) se terminant par RET pour exécuter du code malveillant sans l\'injecter.',
+    category: 'Sécurité'
+  },
+  {
+    id: 'mbr',
+    term: 'MBR (Master Boot Record)',
+    definition: 'Le premier secteur d\'un disque (512 octets) qui contient le bootloader (chargeur d\'amorçage) permettant de démarrer le système d\'exploitation.',
+    category: 'Système'
+  },
+  {
+    id: 'ssa',
+    term: 'SSA (Static Single Assignment)',
+    definition: 'Une propriété d\'une représentation intermédiaire (IR) où chaque variable n\'est assignée qu\'une seule et unique fois. C\'est crucial pour faciliter l\'optimisation du code par les compilateurs modernes.',
+    category: 'Compilation'
+  },
+  {
+    id: 'mmio',
+    term: 'MMIO (Memory-Mapped I/O)',
+    definition: 'Méthode d\'interaction matérielle où les périphériques matériels sont contrôlés en écrivant ou lisant à des adresses mémoires spécifiques, plutôt qu\'avec des instructions I/O dédiées.',
+    category: 'Architecture'
+  },
+  {
+    id: 'padding',
+    term: 'Padding',
+    definition: 'L\'ajout d\'octets vides dans les structures de données en mémoire par le compilateur pour garantir un alignement de la mémoire, accélérant ainsi les accès par le processeur.',
+    category: 'Mémoire'
   }
 ];

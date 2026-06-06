@@ -221,12 +221,143 @@ export function step(state: CpuState): CpuState {
         break;
       }
 
+      case 'and': {
+        const val1 = getValue(newState, inst.op1!);
+        const val2 = getValue(newState, inst.op2!);
+        const res = val1 & val2;
+        setValue(newState, inst.op1!, res);
+        updateFlags(newState, res);
+        break;
+      }
+
+      case 'or': {
+        const val1 = getValue(newState, inst.op1!);
+        const val2 = getValue(newState, inst.op2!);
+        const res = val1 | val2;
+        setValue(newState, inst.op1!, res);
+        updateFlags(newState, res);
+        break;
+      }
+
+      case 'not': {
+        const val = getValue(newState, inst.op1!);
+        const res = ~val;
+        setValue(newState, inst.op1!, res);
+        updateFlags(newState, res);
+        break;
+      }
+
+      case 'shl': {
+        const val = getValue(newState, inst.op1!);
+        const shift = getValue(newState, inst.op2!);
+        const res = val << shift;
+        setValue(newState, inst.op1!, res);
+        updateFlags(newState, res);
+        break;
+      }
+
+      case 'shr': {
+        const val = getValue(newState, inst.op1!);
+        const shift = getValue(newState, inst.op2!);
+        const res = val >> shift;
+        setValue(newState, inst.op1!, res);
+        updateFlags(newState, res);
+        break;
+      }
+
+      case 'mul':
+      case 'imul': {
+        const val1 = getValue(newState, inst.op1!);
+        const val2 = inst.op2 ? getValue(newState, inst.op2) : newState.registers.rax; // Simplified: usually mul multiplies rax by op1
+        const res = val1 * val2;
+        // In reality mul puts result in rdx:rax. For simplicity, we just put it in the target (or rax if no op2)
+        if (inst.op2) {
+          setValue(newState, inst.op1!, res);
+        } else {
+          newState.registers.rax = res;
+        }
+        updateFlags(newState, res);
+        break;
+      }
+
+      case 'test': {
+        const val1 = getValue(newState, inst.op1!);
+        const val2 = getValue(newState, inst.op2!);
+        const res = val1 & val2;
+        updateFlags(newState, res); // Discards result, just updates flags like cmp
+        break;
+      }
+
+      case 'lea': {
+        // LEA doesn't dereference memory, it just computes the address
+        // Since our getValue for memory [rbx] actually dereferences, we need to handle lea manually here
+        // For simplicity, we'll just evaluate the string expression if it's simple
+        // E.g. lea rax, [rbx+10]. Our current parse handles immediate and registers, but not complex expressions.
+        // As a minimal fallback for the emulator context:
+        if (inst.op2?.startsWith('[')) {
+           // Hacky way to get the base address without deref
+           const inner = inst.op2.slice(1, -1);
+           const addr = isNaN(Number(inner)) ? newState.registers[inner as keyof typeof newState.registers] : Number(inner);
+           setValue(newState, inst.op1!, addr);
+        } else {
+           setValue(newState, inst.op1!, getValue(newState, inst.op2!));
+        }
+        break;
+      }
+
+      case 'jg': {
+        if (!newState.flags.zf && newState.flags.sf === false) { // Simplification of SF == OF
+          const target = inst.op1!;
+          if (newState.labels[target] !== undefined) {
+            newState.registers.rip = newState.labels[target];
+            jumped = true;
+          } else {
+            throw new Error(`Label not found: ${target}`);
+          }
+        }
+        break;
+      }
+
+      case 'jl': {
+        if (newState.flags.sf !== false) { // Simplification of SF != OF
+          const target = inst.op1!;
+          if (newState.labels[target] !== undefined) {
+            newState.registers.rip = newState.labels[target];
+            jumped = true;
+          } else {
+            throw new Error(`Label not found: ${target}`);
+          }
+        }
+        break;
+      }
+
       case 'nop':
         break;
 
-      case 'ret':
-        newState.halted = true;
+      case 'call': {
+        const target = inst.op1!;
+        if (newState.labels[target] !== undefined) {
+          newState.stack.push(newState.registers.rip + 1);
+          newState.registers.rsp -= 8;
+          newState.registers.rip = newState.labels[target];
+          jumped = true;
+        } else {
+          throw new Error(`Label not found: ${target}`);
+        }
         break;
+      }
+
+      case 'ret': {
+        if (newState.stack.length === 0) {
+          newState.halted = true;
+        } else {
+          const retAddr = newState.stack.pop()!;
+          newState.registers.rsp += 8;
+          newState.registers.rip = retAddr;
+          jumped = true;
+        }
+        break;
+      }
 
       // Custom instruction for educational output
       case 'print': {

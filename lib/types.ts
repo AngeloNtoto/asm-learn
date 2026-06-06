@@ -38,7 +38,7 @@ export interface LessonContent {
 export interface CodeExample {
   title: string;
   code: string;
-  language: 'asm' | 'pseudo' | 'ir' | 'cpp' | 'llvm';
+  language: 'asm' | 'pseudo' | 'ir' | 'cpp' | 'llvm' | 'c' | 'ascii' | 'js';
   explanation: string;
 }
 
@@ -141,7 +141,7 @@ export interface FlashcardProgress {
 export interface UserSnippet {
   id: string;
   code: string;
-  language: 'asm' | 'pseudo' | 'ir' | 'cpp' | 'llvm';
+  language: 'asm' | 'pseudo' | 'ir' | 'cpp' | 'llvm' | 'c' | 'ascii' | 'js';
   lessonId: string;
   title?: string;
   dateAdded: string;
