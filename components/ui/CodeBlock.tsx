@@ -6,7 +6,7 @@ import { highlightASM } from '@/lib/utils';
 
 interface CodeBlockProps {
   code: string;
-language?: 'asm' | 'pseudo' | 'ir' | 'cpp' | 'llvm' | 'c' | 'ascii' | 'js';
+language?: 'asm' | 'pseudo' | 'ir' | 'cpp' | 'llvm' | 'c' | 'ascii' | 'js' | 'python';
   hideSave?: boolean;
 }
 

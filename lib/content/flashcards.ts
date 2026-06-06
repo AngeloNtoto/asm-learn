@@ -161,5 +161,81 @@ export const FLASHCARDS: Flashcard[] = [
     moduleId: 'mod17',
     front: 'Quelle est la contrainte principale d\'un bootloader BIOS dans le MBR ?',
     back: 'Il ne dispose que de 512 octets d\'espace et s\'exécute en mode réel 16-bits.',
+  },
+  // Mod 18
+  {
+    id: 'fc-25',
+    moduleId: 'mod18',
+    front: 'Quel registre sert souvent d\'extension à RAX pour contenir le résultat d\'une multiplication 64-bits (mul) ?',
+    back: 'Le registre RDX (le résultat est sur 128 bits, stocké dans RDX:RAX).'
+  },
+  {
+    id: 'fc-26',
+    moduleId: 'mod18',
+    front: 'Quelle est la différence entre les sauts "ja" et "jg" ?',
+    back: '"ja" (Jump Above) est utilisé pour comparer des nombres NON-SIGNÉS, "jg" (Jump Greater) pour des nombres SIGNÉS.'
+  },
+  // Mod 19
+  {
+    id: 'fc-27',
+    moduleId: 'mod19',
+    front: 'Dans un fichier ELF, que stockent respectivement les sections .data et .bss ?',
+    back: '.data stocke les variables globales INITIALISÉES, tandis que .bss réserve de la place pour les globales NON-INITIALISÉES (remplies de zéros par l\'OS).'
+  },
+  // Mod 20
+  {
+    id: 'fc-28',
+    moduleId: 'mod20',
+    front: 'Où se trouvent argc et les pointeurs vers argv lorsque le noyau Linux appelle l\'entrée _start ?',
+    back: 'Ils sont déposés directement sur la Pile (Stack). Le pointeur RSP pointe sur argc.'
+  },
+  // Mod 21
+  {
+    id: 'fc-29',
+    moduleId: 'mod21',
+    front: 'Quel registre sert de compteur pour le préfixe "rep" (ex: rep movsb) ?',
+    back: 'Le registre RCX. Il est automatiquement décrémenté jusqu\'à 0.'
+  },
+  // Mod 22
+  {
+    id: 'fc-30',
+    moduleId: 'mod22',
+    front: 'À quoi sert le préfixe "lock" devant une instruction ASM ?',
+    back: 'Il verrouille le bus mémoire, rendant l\'instruction (ex: lock xchg) ATOMIQUE pour éviter les conflits dans un environnement Multithread (Spinlocks).'
+  },
+  // Mod 23
+  {
+    id: 'fc-31',
+    moduleId: 'mod23',
+    front: 'Quelle est la différence d\'empreinte mémoire entre un entier C++ et un entier Python ?',
+    back: 'Un int C++ prend 4 octets stricts sur la pile. Un entier Python est un objet (PyLongObject) alloué sur le tas contenant des métadonnées, prenant ~28 octets.'
+  },
+  // Mod 24
+  {
+    id: 'fc-32',
+    moduleId: 'mod24',
+    front: 'Comment est gérée la suspension d\'exécution avec le mot-clé "yield" (Python) ou "co_yield" (C++) ?',
+    back: 'La "Stack Frame" (contenant les variables locales et l\'Instruction Pointer) est allouée ou sauvegardée sur le Tas (Heap) au lieu d\'être détruite comme dans un "return" classique.'
+  },
+  // Mod 25
+  {
+    id: 'fc-33',
+    moduleId: 'mod25',
+    front: 'Pourquoi les fonctions comme print() utilisent-elles le Buffering au lieu d\'appeler directement l\'OS (syscall) pour chaque caractère ?',
+    back: 'Pour éviter l\'effondrement des performances dû aux coûteux changements de contexte (Context Switches) entre le User-Space et le Kernel-Space.'
+  },
+  // Mod 26
+  {
+    id: 'fc-34',
+    moduleId: 'mod26',
+    front: 'Qu\'est-ce que le "Stack Unwinding" (déroulage de pile) lors d\'un throw (exception) en C++ ?',
+    back: 'C\'est le processus où l\'OS utilise des tables secrètes (Dwarf) pour remonter la pile d\'appels, appeler les destructeurs locaux, et trouver le bloc catch, ce qui le rend très lent.'
+  },
+  // Mod 27
+  {
+    id: 'fc-35',
+    moduleId: 'mod27',
+    front: 'Comment est résolu le polymorphisme C++ (virtual) par rapport au "Duck Typing" Python en ASM ?',
+    back: 'C++ utilise un "vptr" pour sauter instantanément via une table virtuelle (call [rax+8]). Python doit faire une lourde recherche textuelle dans un dictionnaire (__dict__).'
   }
 ];
